@@ -16,11 +16,13 @@ public class TestBase {
     @BeforeSuite(alwaysRun = true)
     public void setUp() throws IOException {
         app.init();
+        System.out.println("f");
 
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() {
+
         app.stop();
     }
 
