@@ -19,6 +19,7 @@ public class ApplicationManager {
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
     private MailHelper mailHelper;
+    private ChangePasswordHelper changePasswordHelper;
 
 
     public ApplicationManager(String browser){
@@ -64,14 +65,12 @@ public class ApplicationManager {
     public WebDriver getDriver() {
         if (wd == null) {
             if (browser.equals("CHROME")){
-                //System.setProperty("webdriver.chrome.driver", "C:\\Windows\\System32\\chromedriver.exe");
                 wd = new ChromeDriver();
             }
             else if (browser.equals("FIREFOX")) {
-                //System.setProperty("webdriver.gecko.driver", "c:\\Windows\\System32\\geckodriver.exe");
                 wd = new FirefoxDriver();
             }
-            wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             wd.get(properties.getProperty("web.baseUrl"));
         }
         return wd;
@@ -83,4 +82,12 @@ public class ApplicationManager {
         }
         return mailHelper;
     }
+
+    public ChangePasswordHelper changePWhelper() {
+        if (changePasswordHelper == null) {
+            changePasswordHelper = new ChangePasswordHelper(this);
+        }
+        return changePasswordHelper;
+    }
+
 }
