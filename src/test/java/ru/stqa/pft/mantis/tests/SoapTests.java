@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.Set;
 
+import static org.testng.Assert.assertEquals;
+
 public class SoapTests extends TestBase{
 
     @Test
@@ -25,9 +27,19 @@ public class SoapTests extends TestBase{
     @Test
     public void testCreateIssue() throws MalformedURLException, ServiceException, RemoteException {
         Set<Project> projects = app.soap().getProjects();
-        Issue issue = new Issue().withSummary("Test issue")
-                .withDescriprion("Test issue descriprion").withProject(projects.iterator().next());
+        Issue issue = new Issue().withSummary("Test issue 1")
+                .withDescriprion("Test issue description").withProject(projects.iterator().next());
         Issue created = app.soap().addIssue(issue);
-        Assert.assertEquals(issue.getSummary(), created.getSummary());
+        assertEquals(issue.getSummary(), created.getSummary());
+    }
+
+    @Test
+    public void testCreateIssueWithSkip() throws MalformedURLException, RemoteException, javax.xml.rpc.ServiceException {
+        skipIfNotFixed(2);
+        Set<Project> projects = app.soap().getProjects();
+        Issue issue = new Issue().withSummary("Test issue new").withDescriprion("Test issue description new")
+                .withProject(projects.iterator().next());
+        Issue created = app.soap().addIssue(issue);
+        assertEquals(issue.getSummary(), created.getSummary());
     }
 }
