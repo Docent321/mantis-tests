@@ -33,7 +33,15 @@ public class TestBase {
 
     public boolean isIssueOpen(int issueId) throws MalformedURLException, RemoteException, javax.xml.rpc.ServiceException {
         IssueData issue = app.soap().getIssue(issueId);
-        return !issue.getStatus().getName().equals("closed");
+        String statusName = issue.getStatus().getName();
+       // return !issue.getStatus().getName().equals("closed");
+        if (statusName.equals("closed")) {
+            return false;
+        } if (statusName.equals("resolved")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void skipIfNotFixed(int issueId) throws MalformedURLException, RemoteException, ServiceException {
